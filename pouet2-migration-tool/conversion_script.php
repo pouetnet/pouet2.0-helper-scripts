@@ -4,9 +4,10 @@ error_reporting(E_ALL ^ E_NOTICE);
 //define("NEW_CHARSET","utf8");
 define("NEW_CHARSET","utf8mb4");
 
-if ($SERVER["REQUEST_URI"]) die("cmdline only!");
+if ( php_sapi_name() != "cli" ) 
+  die("this is a commandline-only script");
 
-include_once("pouet/bootstrap.inc.php");
+include_once("../script-bootstrap.inc.php");
 
 set_time_limit(0);
 
