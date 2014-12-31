@@ -15,7 +15,7 @@ foreach($users as $user)
     ),
     "middlebar" => array(
       array("box"=>"LatestOneliner","limit"=>$user->{"indexoneliner"} ),
-      array("box"=>"LatestBBS"     ,"limit"=>$user->{"indexbbstopics"} ),
+      array("box"=>"LatestBBS"     ,"limit"=>$user->{"indexbbstopics"},"hideResidue"=>$user->{"indexbbsnoresidue"} ),
       array("box"=>"NewsBoxes"     ,"limit"=>$user->{"indexojnews"} ),
     ),
     "rightbar" => array(
