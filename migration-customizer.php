@@ -2,6 +2,7 @@
 require_once("scripts-bootstrap.inc.php");
 
 $users = SQLLib::SelectRows("select * from usersettings");
+$a = array();
 foreach($users as $user)
 {
   $boxes = array(
@@ -37,7 +38,18 @@ foreach($users as $user)
         unset($item);
     }
   }
-  SQLLib::UpdateRow("usersettings",array("customizerJSON"=>json_encode(array("frontpage"=>$boxes))),"id=".$user->id);
+  $a[] = array("id"=>$user->id,"customizerJSON"=>json_encode(array("frontpage"=>$boxes)));
+  if (count($a) >= 100)
+  {
+    echo "Update...\n";
+    SQLLib::UpdateRowMulti("usersettings","id",$a);
+    $a = array();
+  }
   echo $user->id."\n";
+}
+if (count($a) > 0)
+{
+  echo "FInal update...\n";
+  SQLLib::UpdateRowMulti("usersettings","id",$a);
 }
 ?>
