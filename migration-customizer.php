@@ -49,7 +49,7 @@ foreach($users as $user)
 }
 if (count($a) > 0)
 {
-  echo "FInal update...\n";
+  echo "Final update...\n";
   SQLLib::UpdateRowMulti("usersettings","id",$a);
 }
 ?>
