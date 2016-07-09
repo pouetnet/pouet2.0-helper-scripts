@@ -82,12 +82,39 @@ class images_to_sprite
 }
 
 $files = array();
+
+/*
 $f = file("types.old.css");
 foreach($f as $v)
 {
   if (preg_match("/.([a-zA-Z_0-9]*) { background: url\('http:\/\/www.pouet.net\/(.*)'\); }/",$v,$m))
+  {
     $files[ $m[1] ] = $m[2];
+    if (strstr($m[1],"type_")!==false)
+      copy( POUET_CONTENT_LOCAL . $m[2], POUET_CONTENT_LOCAL . "gfx/types.clean/".strtolower(preg_replace("/[^a-zA-Z0-9]+/","",str_replace("type_","",$m[1]))).".gif" );
+  }
 }
+exit();
+*/
+
+function sanitize_type($s)
+{
+  return str_replace(" ","_",$s);
+}
+
+$row = SQLLib::selectRow("DESC prods type");
+$types = enum2array($row->Type);
+foreach($types as $type)
+  $files[ "type_" . sanitize_type($type) ] = "gfx/types/".sanitize_type($type).".gif";
+
+function sanitize_platform($s)
+{
+  return strtolower(preg_replace("/[^a-zA-Z0-9]+/","",$s));
+}
+
+$rows = SQLLib::SelectRows("select * from platforms order by name");
+foreach($rows as $row)
+  $files[ "os_" . sanitize_platform($row->name) ] = "gfx/os/".$row->icon;
 
 $class = new images_to_sprite();
 
